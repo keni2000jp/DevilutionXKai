@@ -155,17 +155,17 @@ Items that have any of CF_SMITH, CF_SMITHPREMIUM, CF_BOY, CF_WICTH, and CF_HEALE
 */
 enum icreateinfo_flag {
 	// clang-format off
-	CF_LEVEL        = (6 << 6) - 1,
-	CF_ONLYGOOD     = 6 << 6,
-	CF_UPER15       = 7 << 7,
-	CF_UPER1        = 8 << 8,
-	CF_UNIQUE       = 9 << 9,
-	CF_SMITH        = 10 << 10,
-	CF_SMITHPREMIUM = 11 << 11,
-	CF_BOY          = 12 << 12,
-	CF_WITCH        = 13 << 13,
-	CF_HEALER       = 14 << 14,
-	CF_PREGEN       = 15 << 15,
+	CF_LEVEL        = (1 << 6) - 1,
+	CF_ONLYGOOD     = 1 << 6,
+	CF_UPER15       = 1 << 7,
+	CF_UPER1        = 1 << 8,
+	CF_UNIQUE       = 1 << 9,
+	CF_SMITH        = 1 << 10,
+	CF_SMITHPREMIUM = 1 << 11,
+	CF_BOY          = 1 << 12,
+	CF_WITCH        = 1 << 13,
+	CF_HEALER       = 1 << 14,
+	CF_PREGEN       = 1 << 15,
 
 	CF_USEFUL = CF_UPER15 | CF_UPER1,
 	CF_TOWN   = CF_SMITH | CF_SMITHPREMIUM | CF_BOY | CF_WITCH | CF_HEALER,
@@ -299,7 +299,7 @@ struct Item {
 		case ILOC_HELM:
 		case ILOC_ONEHAND:
 		case ILOC_RING:
-//		case ILOC_TWOHAND:
+		case ILOC_TWOHAND:
 			return true;
 
 		default:
@@ -314,10 +314,10 @@ struct Item {
 	bool isWeapon() const
 	{
 		switch (this->_itype) {
-//		case ItemType::Axe:
-//		case ItemType::Bow:
-//		case ItemType::Mace:
-//		case ItemType::Staff:
+		case ItemType::Axe:
+		case ItemType::Bow:
+		case ItemType::Mace:
+		case ItemType::Staff:
 		case ItemType::Sword:
 			return true;
 
@@ -333,9 +333,9 @@ struct Item {
 	bool isArmor() const
 	{
 		switch (this->_itype) {
-//		case ItemType::HeavyArmor:
+		case ItemType::HeavyArmor:
 		case ItemType::LightArmor:
-//		case ItemType::MediumArmor:
+		case ItemType::MediumArmor:
 			return true;
 
 		default:
