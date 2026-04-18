@@ -30,6 +30,7 @@ jobs:
       run: >
         sudo apt update &&
         sudo apt install -y cmake gcc-mingw-w64-i686 g++-mingw-w64-i686 pkg-config-mingw-w64-i686 libz-mingw-w64-dev gettext dpkg-dev wget git sudo smpq &&
+        chmod +x Packaging/windows/mingw-prep.sh
         sudo ./Packaging/windows/mingw-prep.sh
 
     - name: Configure CMake
