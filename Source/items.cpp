@@ -367,30 +367,30 @@ SfxID ItemDropSnds[] = {
 /** Maps from Griswold premium item number to a quality level delta as added to the base quality level. */
 int itemLevelAdd[] = {
 	// clang-format off
-	-1,
-	-1,
-	 0,
-	 0,
-	 1,
+ 	 2,
+	 2,
+	 2,
+	 2,
+	 2,
 	 2,
 	// clang-format on
 };
 /** Maps from Griswold premium item number to a quality level delta as added to the base quality level. */
 int itemLevelAddHf[] = {
 	// clang-format off
-	-1,
-	-1,
-	-1,
-	 0,
-	 0,
-	 0,
-	 0,
-	 1,
-	 1,
-	 1,
-	 1,
-	 2,
-	 2,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
+	 3,
 	 3,
 	 3,
 	// clang-format on
@@ -1312,35 +1312,35 @@ void GetItemBonus(const Player &player, Item &item, int minlvl, int maxlvl, bool
 
 	switch (item._itype) {
 	case ItemType::Sword:
-	case ItemType::Axe:
-	case ItemType::Mace:
+//	case ItemType::Axe:
+//	case ItemType::Mace:
 		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Weapon, onlygood);
 		break;
-	case ItemType::Bow:
-		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Bow, onlygood);
-		break;
-	case ItemType::Shield:
-		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Shield, onlygood);
-		break;
+//	case ItemType::Bow:
+//		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Bow, onlygood);
+//		break;
+//	case ItemType::Shield:
+//		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Shield, onlygood);
+//		break;
 	case ItemType::LightArmor:
 	case ItemType::Helm:
-	case ItemType::MediumArmor:
-	case ItemType::HeavyArmor:
+//	case ItemType::MediumArmor:
+//	case ItemType::HeavyArmor:
 		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Armor, onlygood);
 		break;
-	case ItemType::Staff:
-		if (allowspells)
-			GetStaffSpell(player, item, maxlvl, onlygood);
-		else
-			GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Staff, onlygood);
-		break;
+//	case ItemType::Staff:
+//		if (allowspells)
+//			GetStaffSpell(player, item, maxlvl, onlygood);
+//		else
+//			GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Staff, onlygood);
+//		break;
 	case ItemType::Ring:
 	case ItemType::Amulet:
 		GetItemPower(player, item, minlvl, maxlvl, AffixItemType::Misc, onlygood);
 		break;
-	case ItemType::None:
-	case ItemType::Misc:
-	case ItemType::Gold:
+//	case ItemType::None:
+//	case ItemType::Misc:
+//	case ItemType::Gold:
 		break;
 	}
 }
@@ -1391,7 +1391,8 @@ _item_indexes RndUItem(Monster *monster)
 
 _item_indexes RndAllItems()
 {
-	if (GenerateRnd(100) > 25)
+	if (GenerateRnd(100) > 100)
+//	if (GenerateRnd(100) > 25)
 		return IDI_GOLD;
 
 	int itemMaxLevel = ItemsGetCurrlevel() * 2;
@@ -1475,13 +1476,15 @@ void GetUniqueItem(const Player &player, Item &item, _unique_items uid)
 void ItemRndDur(Item &item)
 {
 	if (item._iDurability > 0 && item._iDurability != DUR_INDESTRUCTIBLE)
-		item._iDurability = GenerateRnd(item._iMaxDur / 2) + (item._iMaxDur / 4) + 1;
+		item._iDurability = GenerateRnd(item._iMaxDur);
+//		item._iDurability = GenerateRnd(item._iMaxDur / 2) + (item._iMaxDur / 4) + 1;
 }
 
 int GetItemBLevel(int lvl, item_misc_id miscId, bool onlygood, bool uper15)
 {
 	int iblvl = -1;
-	if (GenerateRnd(100) <= 10
+	if (GenerateRnd(100) <= 100
+//	if (GenerateRnd(100) <= 10
 	    || GenerateRnd(100) <= lvl
 	    || onlygood
 	    || IsAnyOf(miscId, IMISC_STAFF, IMISC_RING, IMISC_AMULET)) {
@@ -1522,7 +1525,8 @@ void SetupAllUseful(Item &item, int iseed, int lvl)
 	_item_indexes idx;
 
 	if (gbIsHellfire) {
-		switch (GenerateRnd(7)) {
+//		switch (GenerateRnd(7)) {
+		switch 7 {
 		case 0:
 			idx = IDI_PORTAL;
 			if (lvl <= 1)
@@ -1951,7 +1955,8 @@ void SpawnOnePremium(Item &premiumItem, int plvl, const Player &player)
 		premiumItem = {};
 		premiumItem._iSeed = AdvanceRndSeed();
 		SetRndSeed(premiumItem._iSeed);
-		const _item_indexes itemType = RndPremiumItem(player, plvl / 4, plvl);
+		const _item_indexes itemType = plvl;
+//		const _item_indexes itemType = RndPremiumItem(player, plvl / 4, plvl);
 		GetItemAttrs(premiumItem, itemType, plvl);
 		GetItemBonus(player, premiumItem, plvl / 2, plvl, true, !gbIsHellfire);
 
@@ -1962,7 +1967,7 @@ void SpawnOnePremium(Item &premiumItem, int plvl, const Player &player)
 		} else {
 			int itemValue = 0;
 			switch (premiumItem._itype) {
-			case ItemType::LightArmor:
+//			case ItemType::LightArmor:
 			case ItemType::MediumArmor:
 			case ItemType::HeavyArmor: {
 				const auto *const mostValuablePlayerArmor = player.GetMostValuableItem(
@@ -1973,13 +1978,13 @@ void SpawnOnePremium(Item &premiumItem, int plvl, const Player &player)
 				itemValue = mostValuablePlayerArmor == nullptr ? 0 : mostValuablePlayerArmor->_iIvalue;
 				break;
 			}
-			case ItemType::Shield:
-			case ItemType::Axe:
-			case ItemType::Bow:
-			case ItemType::Mace:
+//			case ItemType::Shield:
+//			case ItemType::Axe:
+//			case ItemType::Bow:
+//			case ItemType::Mace:
 			case ItemType::Sword:
 			case ItemType::Helm:
-			case ItemType::Staff:
+//			case ItemType::Staff:
 			case ItemType::Ring:
 			case ItemType::Amulet: {
 				const auto *const mostValuablePlayerItem = player.GetMostValuableItem(
@@ -2078,7 +2083,8 @@ _item_indexes RndHealerItem(const Player &player, int lvl)
 void RecreateSmithItem(const Player &player, Item &item, int lvl, int iseed)
 {
 	SetRndSeed(iseed);
-	const _item_indexes itype = RndSmithItem(player, lvl);
+	const _item_indexes itype = player;
+//	const _item_indexes itype = RndSmithItem(player, lvl);	
 	GetItemAttrs(item, itype, lvl);
 
 	item._iSeed = iseed;
@@ -2089,9 +2095,11 @@ void RecreateSmithItem(const Player &player, Item &item, int lvl, int iseed)
 void RecreatePremiumItem(const Player &player, Item &item, int plvl, int iseed)
 {
 	SetRndSeed(iseed);
-	const _item_indexes itype = RndPremiumItem(player, plvl / 4, plvl);
+	const _item_indexes itype =plvl;
+//	const _item_indexes itype = RndPremiumItem(player, plvl / 4, plvl);
 	GetItemAttrs(item, itype, plvl);
-	GetItemBonus(player, item, plvl / 2, plvl, true, !gbIsHellfire);
+	GetItemBonus(player, item, plvl , plvl, true, !gbIsHellfire);
+//	GetItemBonus(player, item, plvl / 2, plvl, true, !gbIsHellfire);
 
 	item._iSeed = iseed;
 	item._iCreateInfo = plvl | CF_SMITHPREMIUM;
@@ -2101,9 +2109,11 @@ void RecreatePremiumItem(const Player &player, Item &item, int plvl, int iseed)
 void RecreateBoyItem(const Player &player, Item &item, int lvl, int iseed)
 {
 	SetRndSeed(iseed);
-	const _item_indexes itype = RndBoyItem(player, lvl);
+	const _item_indexes itype = player;
+//	const _item_indexes itype = RndBoyItem(player, lvl);
 	GetItemAttrs(item, itype, lvl);
-	GetItemBonus(player, item, lvl, 2 * lvl, true, true);
+	GetItemBonus(player, item, 2 * lvl, 2 * lvl, true, true);
+//	GetItemBonus(player, item, lvl, 2 * lvl, true, true);
 
 	item._iSeed = iseed;
 	item._iCreateInfo = lvl | CF_BOY;
@@ -2251,11 +2261,13 @@ std::string GetTranslatedItemNameMagical(const Item &item, bool hellfireItem, bo
 	int maxlvl;
 	if ((item._iCreateInfo & CF_SMITHPREMIUM) != 0) {
 		DiscardRandomValues(2); // RndVendorItem and GetItemAttrs
-		minlvl = lvl / 2;
+		minlvl = lvl;
+//		minlvl = lvl / 2;
 		maxlvl = lvl;
 	} else if ((item._iCreateInfo & CF_BOY) != 0) {
 		DiscardRandomValues(2); // RndVendorItem and GetItemAttrs
 		minlvl = lvl;
+//		minlvl = lvl / 2;
 		maxlvl = lvl * 2;
 	} else if ((item._iCreateInfo & CF_WITCH) != 0) {
 		DiscardRandomValues(2); // RndVendorItem and GetItemAttrs
@@ -2264,12 +2276,14 @@ std::string GetTranslatedItemNameMagical(const Item &item, bool hellfireItem, bo
 			iblvl = 2 * lvl;
 		if (iblvl == -1 && item._iMiscId == IMISC_STAFF)
 			iblvl = 2 * lvl;
-		minlvl = iblvl / 2;
+		minlvl = iblvl;
+//		minlvl = lvl / 2;
 		maxlvl = iblvl;
 	} else {
 		DiscardRandomValues(1); // GetItemAttrs
 		const int iblvl = GetItemBLevel(lvl, item._iMiscId, onlygood, (item._iCreateInfo & CF_UPER15) != 0);
-		minlvl = iblvl / 2;
+		minlvl = iblvl;
+		minlvl = iblvl / 2;		
 		maxlvl = iblvl;
 		DiscardRandomValues(1); // CheckUnique
 	}
@@ -2280,56 +2294,56 @@ std::string GetTranslatedItemNameMagical(const Item &item, bool hellfireItem, bo
 
 	switch (item._itype) {
 	case ItemType::Sword:
-	case ItemType::Axe:
-	case ItemType::Mace:
+//	case ItemType::Axe:
+//	case ItemType::Mace:
 		affixItemType = AffixItemType::Weapon;
 		break;
-	case ItemType::Bow:
-		affixItemType = AffixItemType::Bow;
-		break;
-	case ItemType::Shield:
-		affixItemType = AffixItemType::Shield;
-		break;
+//	case ItemType::Bow:
+//		affixItemType = AffixItemType::Bow;
+//		break;
+//	case ItemType::Shield:
+//		affixItemType = AffixItemType::Shield;
+//		break;
 	case ItemType::LightArmor:
 	case ItemType::Helm:
-	case ItemType::MediumArmor:
-	case ItemType::HeavyArmor:
+//	case ItemType::MediumArmor:
+//	case ItemType::HeavyArmor:
 		affixItemType = AffixItemType::Armor;
 		break;
-	case ItemType::Staff: {
-		const bool allowspells = !hellfireItem || ((item._iCreateInfo & CF_SMITHPREMIUM) == 0);
+//	case ItemType::Staff: {
+//		const bool allowspells = !hellfireItem || ((item._iCreateInfo & CF_SMITHPREMIUM) == 0);
 
-		if (!allowspells)
-			affixItemType = AffixItemType::Staff;
-		else if (!hellfireItem && FlipCoin(4)) {
-			affixItemType = AffixItemType::Staff;
-			minlvl = maxlvl / 2;
-		} else {
-			DiscardRandomValues(2); // Spell and Charges
+//		if (!allowspells)
+//			affixItemType = AffixItemType::Staff;
+//		else if (!hellfireItem && FlipCoin(4)) {
+//			affixItemType = AffixItemType::Staff;
+//			minlvl = maxlvl / 2;
+//		} else {
+//			DiscardRandomValues(2); // Spell and Charges
 
-			std::optional<const PLStruct *> prefix = GetStaffPrefix(maxlvl, onlygood);
-			if (!prefix.has_value() || item._iSpell == SpellID::Null) {
-				if (forceNameLengthCheck) {
+//			std::optional<const PLStruct *> prefix = GetStaffPrefix(maxlvl, onlygood);
+//			if (!prefix.has_value() || item._iSpell == SpellID::Null) {
+//				if (forceNameLengthCheck) {
 					// We generate names to check if it's a diablo or hellfire item. This checks fails => invalid item => don't generate a item name
-					identifiedName.clear();
-				} else {
+//					identifiedName.clear();
+//				} else {
 					// This can happen, if the item is hacked or a bug in the logic exists
-					LogWarn("GetTranslatedItemNameMagical failed for item '{}' with prefix '{}' and spellid '{}'", item._iIName, prefix.has_value() ? (*prefix)->PLName : "NULL", static_cast<std::underlying_type_t<SpellID>>(item._iSpell));
-					identifiedName = item._iIName;
-				}
-			} else {
-				identifiedName = GenerateStaffNameMagical(baseItemData, item._iSpell, **prefix, translate, forceNameLengthCheck);
-			}
-		}
-		break;
-	}
+//					LogWarn("GetTranslatedItemNameMagical failed for item '{}' with prefix '{}' and spellid '{}'", item._iIName, prefix.has_value() ? (*prefix)->PLName : "NULL", static_cast<std::underlying_type_t<SpellID>>(item._iSpell));
+//					identifiedName = item._iIName;
+		//	}
+//			} else {
+//				identifiedName = GenerateStaffNameMagical(baseItemData, item._iSpell, **prefix, translate, forceNameLengthCheck);
+	//	}
+//	}
+//		break;
+//	}
 	case ItemType::Ring:
 	case ItemType::Amulet:
 		affixItemType = AffixItemType::Misc;
 		break;
-	case ItemType::None:
-	case ItemType::Misc:
-	case ItemType::Gold:
+//	case ItemType::None:
+//	case ItemType::Misc:
+//	case ItemType::Gold:
 		break;
 	}
 
@@ -3255,10 +3269,12 @@ void GetSuperItemSpace(Point position, int8_t inum)
 
 _item_indexes RndItemForMonsterLevel(int8_t monsterLevel)
 {
-	if (GenerateRnd(100) > 40)
+	if (GenerateRnd(100) > 100)
+//	if (GenerateRnd(100) > 40)		
 		return IDI_NONE;
 
-	if (GenerateRnd(100) > 25)
+	if (GenerateRnd(100) > 100)
+//	if (GenerateRnd(100) > 25)
 		return IDI_GOLD;
 
 	return GetItemIndexForDroppableItem(true, [&monsterLevel](const ItemData &item) {
@@ -3278,7 +3294,7 @@ void SetupAllItems(const Player &player, Item &item, _item_indexes idx, uint32_t
 	if (onlygood)
 		item._iCreateInfo |= CF_ONLYGOOD;
 
-	if (uper == 15)
+	if (uper == 15)		
 		item._iCreateInfo |= CF_UPER15;
 	else if (uper == 1)
 		item._iCreateInfo |= CF_UPER1;
@@ -4518,7 +4534,8 @@ void SpawnWitch(int lvl)
 			if (maxlvl == -1 && item._iMiscId == IMISC_STAFF)
 				maxlvl = 2 * lvl;
 			if (maxlvl != -1)
-				GetItemBonus(*MyPlayer, item, maxlvl / 2, maxlvl, true, true);
+				GetItemBonus(*MyPlayer, item, maxlvl , maxlvl, true, true);
+//				GetItemBonus(*MyPlayer, item, maxlvl / 2, maxlvl, true, true);
 		} while (item._iIvalue > maxValue);
 
 		item._iCreateInfo = lvl | CF_WITCH;
@@ -4546,7 +4563,8 @@ void SpawnBoy(int lvl)
 	dexterity += dexterity / 5;
 	magic += magic / 5;
 
-	if (BoyItemLevel >= (lvl / 2) && !BoyItem.isEmpty())
+	if (BoyItemLevel >= (lvl ) && !BoyItem.isEmpty())
+//	if (BoyItemLevel >= (lvl / 2) && !BoyItem.isEmpty())
 		return;
 	do {
 		keepgoing = false;
@@ -4555,7 +4573,8 @@ void SpawnBoy(int lvl)
 		SetRndSeed(BoyItem._iSeed);
 		const _item_indexes itype = RndBoyItem(*MyPlayer, lvl);
 		GetItemAttrs(BoyItem, itype, lvl);
-		GetItemBonus(*MyPlayer, BoyItem, lvl, 2 * lvl, true, true);
+		GetItemBonus(*MyPlayer, BoyItem, 2 * lvl, 2 * lvl, true, true);
+//		GetItemBonus(*MyPlayer, BoyItem, lvl, 2 * lvl, true, true);		
 
 		if (!gbIsHellfire) {
 			if (BoyItem._iIvalue > MaxBoyValue) {
@@ -4570,7 +4589,7 @@ void SpawnBoy(int lvl)
 		const ItemType itemType = BoyItem._itype;
 
 		switch (itemType) {
-		case ItemType::LightArmor:
+//		case ItemType::LightArmor:
 		case ItemType::MediumArmor:
 		case ItemType::HeavyArmor: {
 			const auto *const mostValuablePlayerArmor = myPlayer.GetMostValuableItem(
@@ -4581,13 +4600,13 @@ void SpawnBoy(int lvl)
 			ivalue = mostValuablePlayerArmor == nullptr ? 0 : mostValuablePlayerArmor->_iIvalue;
 			break;
 		}
-		case ItemType::Shield:
-		case ItemType::Axe:
-		case ItemType::Bow:
+//		case ItemType::Shield:
+//		case ItemType::Axe:
+//		case ItemType::Bow:
 		case ItemType::Mace:
 		case ItemType::Sword:
 		case ItemType::Helm:
-		case ItemType::Staff:
+//		case ItemType::Staff:
 		case ItemType::Ring:
 		case ItemType::Amulet: {
 			const auto *const mostValuablePlayerItem = myPlayer.GetMostValuableItem(
